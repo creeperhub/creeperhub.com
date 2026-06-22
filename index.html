@@ -21,7 +21,7 @@
 
     <!-- Twitter / X -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://creeperhub.com/" />
+    <meta property="twitter:url" content="https://about.creeperhub.com/" />
     <meta property="twitter:title" content="CreeperHUB.com - V3.0 Incoming" />
     <meta property="twitter:description" content="CreeperHUB.com shows the current stack of CreeperHUB.net, crazy right? (￣_,￣ )." />
     <meta property="twitter:image" content="https://creeperhub.com/og-image.png" />
@@ -187,7 +187,7 @@
             ],
             "CREEPERHUB ECOSYSTEM": [
                 { name: "CreeperHUB", url: "https://creeperhub.net", description: "Ex-main hub, soon v3.0" },
-                { name: "CreeperHUB.com", url: "https://www.creeperhub.com", description: "CreeperHUB hosted side projects" },
+                { name: "CreeperHUB.com", url: "https://about.creeperhub.com", description: "CreeperHUB hosted side projects" },
             ],
             "UTILITIES & APPS": [
                 { name: "creepers.sbs", url: "https://creepers.sbs", description: "Free subdomain service" },
@@ -208,7 +208,7 @@
             root.innerHTML = `
                 <div class="fixed top-0 left-0 right-0 z-[9999] flex items-center px-4 sm:px-6 h-9 justify-between transition-all duration-200" 
                      style="background-color: var(--creativitatis-header-bg); color: var(--creativitatis-header-text); border-bottom: 1px solid var(--creativitatis-header-border);">
-                    <a href="https://www.creeperhub.com" class="text-xs font-bold tracking-widest uppercase hover:opacity-60 transition-opacity flex items-center gap-2">
+                    <a href="https://about.creeperhub.com" class="text-xs font-bold tracking-widest uppercase hover:opacity-60 transition-opacity flex items-center gap-2">
                         <span class="w-2 h-2 bg-black rounded-full"></span>
                         <span class="hidden xs:inline sm:inline">CREATIVITATIS</span>
                         <span class="xs:hidden sm:hidden">TECH</span>
@@ -229,7 +229,7 @@
                                             const isCurrent = currentSiteId === site.name;
                                             return `
                                                 <li>
-                                                    <a href="${isCurrent ? 'https://www.creeperhub.com' : site.url}" class="block group ${isCurrent ? 'cursor-default' : 'hover:bg-black/5 p-2 -m-2 rounded-md'}">
+                                                    <a href="${isCurrent ? 'https://about.creeperhub.com' : site.url}" class="block group ${isCurrent ? 'cursor-default' : 'hover:bg-black/5 p-2 -m-2 rounded-md'}">
                                                         <span class="flex items-center gap-2 text-sm font-medium ${isCurrent ? 'text-black' : 'text-black/80 group-hover:text-black'}">
                                                             ${site.name}
                                                             ${isCurrent ? '<span class="text-[9px] bg-black/10 text-black px-1.5 py-0.5 rounded border border-black/10">CURRENT</span>' : ''}
