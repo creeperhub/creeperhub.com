@@ -29,10 +29,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --creativitatis-header-bg: #ffffff;
-            --creativitatis-header-text: #000000;
-            --creativitatis-header-border: #e5e5e5;
-            --creativitatis-header-dropdown-bg: #ffffff;
+            --ch-header-bg: #ffffff;
+            --ch-header-text: #000000;
+            --ch-header-border: #e5e5e5;
+            --ch-header-dropdown-bg: #ffffff;
         }
 
         body {
@@ -85,6 +85,24 @@
         
         /* Prevent dropdown from closing immediately on mobile tap */
         #network-dropdown-wrapper button { -webkit-tap-highlight-color: transparent; }
+
+        /* Modal Animation */
+        .modal-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -151,6 +169,9 @@
                     Explore Tech Services
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
+                <button id="open-about-modal" class="px-8 py-4 border border-black/20 text-black font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:border-black hover:bg-black hover:text-white flex items-center justify-center gap-2">
+                    About CreeperHUB.com
+                </button>
             </div>
         </section>
 
@@ -175,11 +196,48 @@
         </footer>
     </main>
 
+    <!-- About Modal -->
+    <div id="about-modal" class="modal-overlay fixed inset-0 z-[10000] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="modal-content bg-white max-w-2xl w-full p-8 sm:p-12 rounded-xl shadow-2xl relative max-h-[90vh] overflow-y-auto border border-black/10">
+            <button id="close-about-modal" class="absolute top-4 right-4 text-black/40 hover:text-black transition-colors p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            
+            <div class="prose prose-black max-w-none">
+                <h2 class="text-3xl font-black tracking-tighter mb-2">About CreeperHUB.com</h2>
+                <p class="text-sm text-black/50 font-mono mb-8">A short note on what's happening.</p>
+                
+                <div class="space-y-4 text-base text-black/70 leading-relaxed">
+                    <p>
+                        CreeperHUB.com started as a fun sandbox, a place to host all of my side projects, random experiments, and internal tools. What began as a hobbyist side project has grown organically over time. My fault...
+                    </p>
+                    <p>
+                        However, I've realized I want to turn it into much more. As the range of services I want to offer to people continues to expand, the infrastructure hosted here is evolving into a critical part of a larger network. 
+                    </p>
+                    <p>
+                        Because of this growth, I've realized that the "Creeper" name might not be suitable enough to represent the professional scope of what I am building. If I plan to register this as a company in the future, the identity needs to reflect the creativity, utility, and reliability of the services provided.
+                        It has to be compliant with trademarks as well, I don't want Microsoft to get mad :).
+                    </p>
+                    <p>
+                        That is why I am slowly transitioning the umbrella brand to <strong>Creativitatis</strong>. While the CreeperHUB domains will be available for a while, the future belongs to a more professional identity.
+                    </p>
+                    <p class="pt-4 text-black font-medium">
+                        — Giocoliere
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Set current year dynamically
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
         // --- GLOBAL HEADER LOGIC ---
+        /* 
+         * INSTRUCTIONS: Add `status: "current"` to any object below 
+         * to make the CURRENT tag appear next to it in the dropdown!
+         */
         const NETWORK_DATA = {
             "CREATIVITATIS": [
                 { name: "Creativitatis", url: "https://creativitatis.dev", description: "Soon™" },
@@ -187,7 +245,7 @@
             ],
             "CREEPERHUB ECOSYSTEM": [
                 { name: "CreeperHUB", url: "https://creeperhub.net", description: "Ex-main hub, soon v3.0" },
-                { name: "CreeperHUB.com", url: "https://about.creeperhub.com", description: "CreeperHUB hosted side projects" },
+                { name: "CreeperHUB.com", url: "https://about.creeperhub.com", description: "CreeperHUB hosted side projects", status: "current" },
             ],
             "UTILITIES & APPS": [
                 { name: "creepers.sbs", url: "https://creepers.sbs", description: "Free subdomain service" },
@@ -207,7 +265,7 @@
             const root = document.getElementById('header-root');
             root.innerHTML = `
                 <div class="fixed top-0 left-0 right-0 z-[9999] flex items-center px-4 sm:px-6 h-9 justify-between transition-all duration-200" 
-                     style="background-color: var(--creativitatis-header-bg); color: var(--creativitatis-header-text); border-bottom: 1px solid var(--creativitatis-header-border);">
+                     style="background-color: var(--ch-header-bg); color: var(--ch-header-text); border-bottom: 1px solid var(--ch-header-border);">
                     <a href="https://about.creeperhub.com" class="text-xs font-bold tracking-widest uppercase hover:opacity-60 transition-opacity flex items-center gap-2">
                         <span class="w-2 h-2 bg-black rounded-full"></span>
                         <span class="hidden xs:inline sm:inline">CREATIVITATIS</span>
@@ -226,7 +284,8 @@
                                     <h3 class="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-4 border-b border-black/10 pb-2">${category}</h3>
                                     <ul class="space-y-3">
                                         ${sites.map(site => {
-                                            const isCurrent = currentSiteId === site.name;
+                                            // Check if it's current either by ID or by the new status property
+                                            const isCurrent = currentSiteId === site.name || site.status === 'current';
                                             return `
                                                 <li>
                                                     <a href="${isCurrent ? 'https://about.creeperhub.com' : site.url}" class="block group ${isCurrent ? 'cursor-default' : 'hover:bg-black/5 p-2 -m-2 rounded-md'}">
@@ -288,12 +347,12 @@
 
         // --- SERVICES GRID TEMPLATE DATA ---
         const SERVICES = [
-            { title: "Jukebox Lavalink", description: "Real-time status for a Lavalink server for our Jukebox discord music bot.", tags: ["Java", "Docker", "Status"], github: "https://github.com/lavalink-devs/Lavalink", link: "https://status.jukebox.creeperhub.com" },
-            { title: "Stats", description: "Anonymous privacy-focused analytics for creeperhub.net.", tags: ["Go", "API", "JS"], github: "https://github.com/arp242/goatcounter", link: "https://stats.creeperhub.net" },
-            { title: "Status", description: "Network status.", tags: ["Utility", "Next.js", "Status"], github: "#", link: "https://status.creeperhub.net" },
-            { title: "Tranlation API", description: "Selfhosted translation API for CreeperHUB.", tags: ["API", "Website", "Translation"], github: "https://github.com/thedaviddelta/lingva-translate", link: "https://translate-api.creeperhub.com" },
-            { title: "Modmail", description: "Status for the Modmail Bot in Discord.", tags: ["Discord", "Status", "Bot"], github: "https://github.com/creeperhub/modmail", link: "https://modmail.creeperhub.com" },
-            { title: "Template", description: "Template for the Old CreeperHUB website v1.0.", tags: ["React", "Website", "Template"], github: "https://github.com/creeperhub/free-template", link: "https://ugly.creeperhub.com" }
+            { id: "JK-LV", title: "Jukebox Lavalink", description: "Real-time status for a Lavalink server for our Jukebox discord music bot.", tags: ["Java", "Docker", "Status"], github: "https://github.com/lavalink-devs/Lavalink", link: "https://status.jukebox.creeperhub.com" },
+            { id: "CH-ST", title: "Stats", description: "Anonymous privacy-focused analytics for creeperhub.net.", tags: ["Go", "API", "JS"], github: "https://github.com/arp242/goatcounter", link: "https://stats.creeperhub.net" },
+            { id: "CH-UP", title: "Status", description: "Network status.", tags: ["Utility", "Next.js", "Status"], github: "#", link: "https://status.creeperhub.net" },
+            { id: "CH-API", title: "Tranlation API", description: "Selfhosted translation API for CreeperHUB.", tags: ["API", "Website", "Translation"], github: "https://github.com/thedaviddelta/lingva-translate", link: "https://translate-api.creeperhub.com" },
+            { id: "DS-MOD", title: "Modmail", description: "Status for the Modmail Bot in Discord.", tags: ["Discord", "Status", "Bot"], github: "https://github.com/creeperhub/modmail", link: "https://modmail.creeperhub.com" },
+            { id: "TPL-V1", title: "Template", description: "Template for the Old CreeperHUB website v1.0.", tags: ["React", "Website", "Template"], github: "https://github.com/creeperhub/free-template", link: "https://ugly.creeperhub.com" }
         ];
 
         const grid = document.getElementById('services-grid');
@@ -303,7 +362,7 @@
                     <div class="w-12 h-12 bg-black/5 rounded-lg flex items-center justify-center border border-black/10">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                     </div>
-                    <span class="text-[10px] font-mono text-black/40 border border-black/10 px-2 py-1 rounded">ID: ${Math.random().toString(36).substring(2, 7).toUpperCase()}</span>
+                    <span class="text-[10px] font-mono text-black/40 border border-black/10 px-2 py-1 rounded">ID: ${s.id}</span>
                 </div>
                 
                 <h3 class="text-xl sm:text-2xl font-bold mb-3 text-black">${s.title}</h3>
@@ -337,6 +396,26 @@
         }, { threshold: 0.1 });
 
         reveals.forEach(reveal => observer.observe(reveal));
+
+        // --- MODAL LOGIC ---
+        const modal = document.getElementById('about-modal');
+        const openBtn = document.getElementById('open-about-modal');
+        const closeBtn = document.getElementById('close-about-modal');
+
+        openBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Close if clicking outside the content box
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
